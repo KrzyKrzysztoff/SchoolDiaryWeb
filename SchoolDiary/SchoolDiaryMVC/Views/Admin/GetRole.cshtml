@@ -1,0 +1,26 @@
+﻿@model List<IdentityRole>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Zobacz uprawnienia</title>
+</head>
+<body>
+    <h1>Zobacz uprawnienia</h1>
+    @foreach (var item in Model)
+    {
+        @item.Name
+        <form method="post">
+            <button type="submit" class="btn btn-primary" asp-action="DeleteRole" asp-controller="Admin" asp-route-name="@item.Name">Usuń uprawnienia</button>
+            <button formmethod="get" type="submit" class="btn btn-info" asp-action="UpdateRole" asp-controller="Admin" asp-route-id="@item.Id">Edytuj uprawnienia</button>
+        </form>
+    }
+    @if (ViewData["Success"] != null)
+    {
+        <h3 class="alert alert-primary">@ViewData["Success"]</h3>
+    }
+    @if (ViewData["Error"] != null)
+    {
+        <h3 class="alert alert-danger">@ViewData["Error"]</h3>
+    }
+</body>
+</html>

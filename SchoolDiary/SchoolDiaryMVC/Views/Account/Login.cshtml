@@ -1,0 +1,21 @@
+﻿@model LoginViewModel 
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Logowanie</title>
+</head>
+<body>
+    <form asp-action="Login" method="post">
+        <label>Email</label>
+        <input asp-for="Email" placeholder="Email" />
+        <label>Hasło</label>
+        <input type="password" asp-for="Password" placeholder="Hasło" />
+        <label>Zapamiętaj mnie</label>
+        <input type="checkbox" asp-for="RememberMe" />
+        <button type="submit">Zaloguj się</button>
+    </form>
+    @if (ViewData["Wait"] != null)
+    {
+        <h3 class="alert alert-danger">@ViewData["Wait"]</h3>
+    }
+</body>
+</html>

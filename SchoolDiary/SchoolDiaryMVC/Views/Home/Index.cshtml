@@ -1,0 +1,14 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Scientia</h1>
+    <a class="btn btn-primary" asp-action="Register" asp-controller="Account">Zarejestruj się</a>
+    <a class="btn btn-primary" asp-action="Login" asp-controller="Account">Posiadam konto</a>
+    <a class="btn btn-primary" asp-action="GetRole" asp-controller="Admin">Zobacz uprawnienia</a>
+    <a class="btn btn-primary" asp-action="CreateRole" asp-controller="Admin">Utwórz uprawnienia</a>
+    <a class="btn btn-primary" asp-action="GetUser" asp-controller="Admin">Zobacz użytkowników</a>
+    <a class="btn btn-primary" asp-action="CreateUser" asp-controller="Admin">Utwórz użytkowników</a>
+    <a class="btn btn-primary" asp-action="AddToRole" asp-controller="Admin">Nadaj uprawnienia</a>
+</div>

@@ -1,0 +1,20 @@
+﻿@model RoleViewModel
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Edytuj role</title>
+</head>
+<body>
+    <h1>Utwórz role</h1>
+    <form action="UpdateRole" method="post">
+        <label>Numer Id</label>
+        <input readonly asp-for="Id" placeholder="Numer Id" />
+        <label>Nazwa uprawnienia</label>
+        <input asp-for="Name" placeholder="Nazwa uprawnienia" />
+        <button type="submit">Stwórz</button>
+        @if (ViewData["Error"] != null)
+        {
+            <h3 class="alert alert-danger">@ViewData["Error"]</h3>
+        }
+    </form>
+</body>
+</html>

@@ -1,0 +1,23 @@
+﻿@model UserRoleViewModel
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Nadaj uprawnienia</title>
+</head>
+<body>
+    <form method="post">
+        <label>Email użytkownika</label>
+        <input asp-for="UserEmail" placeholder="Email" />
+        <label>Nazwa uprawnienia</label>
+        <input asp-for="RoleName" placeholder="Nazwa" />
+        <button type="submit" class="btn btn-primary">Dodaj</button>
+    </form>
+    @if (ViewData["Success"] != null)
+    {
+        <h3 class="alert alert-primary">@ViewData["Success"]</h3>
+    }
+    @if (ViewData["Error"] != null)
+    {
+        <h3 class="alert alert-danger">@ViewData["Error"]</h3>
+    }
+</body>
+</html> 

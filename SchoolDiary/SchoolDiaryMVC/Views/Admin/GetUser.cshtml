@@ -1,0 +1,40 @@
+﻿@model List<ApplicationUser>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Lista użytkowników</title>
+</head>
+<body>
+    @if (ViewData["Success"] != null)
+    {
+        <h3 class="alert alert-primary">@ViewData["Success"]</h3>
+    }
+    @if (ViewData["Error"] != null)
+    {
+        <h3 class="alert alert-danger">@ViewData["Error"]</h3>
+    }
+    @foreach (var item in Model)
+    {
+
+        @item.FirstName
+        @item.LastName
+        @item.Email
+        @item.BirthDate
+
+        @if (item.Accepted == false)
+        {
+            <h3 class="text-danger">Użytkownik do akcpetacji</h3>
+            <form method="post">
+                <button asp-action="AcceptUser" asp-controller="Admin" asp-route-id="@item.Id" class="btn btn-primary">Akcpetuj użytkownika</button>
+            </form>
+        }
+        <form method="post">
+            <button formmethod="get" asp-action="UpdateUser" asp-controller="Admin" asp-route-id="@item.Id" class="btn btn-primary">Edytuj użytkownika</button>
+            <button asp-action="DeleteUser" asp-controller="Admin" asp-route-id="@item.Id" class="btn btn-primary">Usuń</button>
+        </form>
+        @if (item.Accepted == true)
+        {
+            <h3 class="text-primary">Użytkownik zaakceptowany</h3>
+        }
+    }
+</body>
+</html>

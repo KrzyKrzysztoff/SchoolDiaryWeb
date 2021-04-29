@@ -1,0 +1,49 @@
+﻿@model SchoolDiaryMVC.ViewModel.UserAddressViewModel
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Stwórz użytkownika</title>
+    </head>
+    <body>
+        <form method="post" asp-action="CreateUser" class="form-group">
+            <label>Imię</label>
+            <input asp-for="FirstName" placeholder="FirstName" />
+            <label>Nazwisko</label>
+            <input asp-for="LastName" placeholder="Nazwisko" />
+            <label>Email</label>
+            <input asp-for="Email" placeholder="Email" />
+            <label>Numer pesel</label>
+            <input asp-for="Pesel" placeholder="Pesel" />
+            <label>Kraj</label>
+            <input asp-for="Country" placeholder="Kraj" />
+            <label>Miasto</label>
+            <input asp-for="City" placeholder="Miasto" />
+            <label>Hasło</label>
+            <input type="Password" asp-for="Password" placeholder="Hasło" />
+            <label>Ulica</label>
+            <input asp-for="Street" placeholder="Ulica" />
+            <label>Numer domu</label>
+            <input asp-for="HouseNumber" placeholder="Numer domu" />
+            <label>Kod pocztowy</label>
+            <input asp-for="PostalCode" placeholder="Kod pocztowy" />
+            <label>Numer index</label>
+            <input asp-for="Index" placeholder="Index również służy jak hasło" />
+            <input asp-for="BirthDate" type="datetime" />
+            <label>Przepracowane godziny</label>
+            <input asp-for="WorkedHours" placeholder="Przepracowane godziny" />
+            <label>ZŁ/h</label>
+            <input asp-for="SalaryPerHour" placeholder="Złotówki na godzinę" />
+            <select asp-for="UserType" asp-items="@Html.GetEnumSelectList<UserTypeEnum>()"></select>
+            <select asp-for="Gender" asp-items="@Html.GetEnumSelectList<GenderEnum>()"></select>
+            <select asp-for="Course" asp-items="@Html.GetEnumSelectList<CourseEnum>()"></select>
+            <button type="submit" class="btn btn-primary">Utwórz użytkownika</button>
+        </form>
+        @if (ViewData["Success"] != null)
+        {
+            <h3 class="alert alert-danger">@ViewData["Success"]</h3>
+        }
+        @if (ViewData["Error"] != null)
+        {
+            <h3 class="alert alert-danger">@ViewData["Error"]</h3>
+        }
+    </body>
+    </html>
