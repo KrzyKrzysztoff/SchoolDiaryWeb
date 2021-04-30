@@ -7,6 +7,7 @@ namespace SchoolDiaryMVC.Models
 {
     public enum RatingEnum
     {
+        None,
         Two,
         TwoPlus,
         Three,

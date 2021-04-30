@@ -11,13 +11,14 @@ namespace SchoolDiaryMVC.Models
         public int Id { get; set; }
         public RatingEnum Rating { get; set; }
         public DateTime Date { get; set; }
-
+        public bool IsFinalGrade { get; set; }
         public int? LessonId { get; set; }
         [ForeignKey("LessonId")]
         public Lesson Lesson { get; set; }
         public string StudentId { get; set; }
         [ForeignKey("StudentId")]
         public ApplicationUser Student { get; set; }
+
 
     }
 }

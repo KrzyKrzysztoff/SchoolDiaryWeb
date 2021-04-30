@@ -12,6 +12,7 @@ namespace SchoolDiaryMVC.Models
         public CourseEnum Course { get; set; }
         public int SizeGroup { get; set; }
 
+        public List<ApplicationUser> Students { get; set; }
 
         public string ClassTeacherId { get; set; }
         [ForeignKey("ClassTeacherId")]

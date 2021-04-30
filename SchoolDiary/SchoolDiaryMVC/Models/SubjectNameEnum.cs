@@ -7,6 +7,7 @@ namespace SchoolDiaryMVC.Models
 {
     public enum SubjectNameEnum
     {
+        None,
         Art,
         Geography,
         English,

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolDiaryMVC.Data;
 
 namespace SchoolDiaryMVC.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210430081610_Add relation between ClassGroup and AplicationUser")]
+    partial class AddrelationbetweenClassGroupandAplicationUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -271,7 +273,7 @@ namespace SchoolDiaryMVC.Migrations
                     b.ToTable("ClassesGroup");
                 });
 
-            modelBuilder.Entity("SchoolDiaryMVC.Models.Grade", b =>
+            modelBuilder.Entity("SchoolDiaryMVC.Models.FinalGrade", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -281,8 +283,33 @@ namespace SchoolDiaryMVC.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsFinalGrade")
-                        .HasColumnType("bit");
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<string>("StudentId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("SubjectId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
+
+                    b.HasIndex("SubjectId");
+
+                    b.ToTable("FinalGrades");
+                });
+
+            modelBuilder.Entity("SchoolDiaryMVC.Models.Grade", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<int?>("LessonId")
                         .HasColumnType("int");
@@ -328,9 +355,6 @@ namespace SchoolDiaryMVC.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("Test")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Test2")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -509,6 +533,21 @@ namespace SchoolDiaryMVC.Migrations
                         .HasForeignKey("ClassTeacherId");
 
                     b.Navigation("ClassGroupTeacher");
+                });
+
+            modelBuilder.Entity("SchoolDiaryMVC.Models.FinalGrade", b =>
+                {
+                    b.HasOne("SchoolDiaryMVC.Models.ApplicationUser", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId");
+
+                    b.HasOne("SchoolDiaryMVC.Models.Subject", "Subject")
+                        .WithMany()
+                        .HasForeignKey("SubjectId");
+
+                    b.Navigation("Student");
+
+                    b.Navigation("Subject");
                 });
 
             modelBuilder.Entity("SchoolDiaryMVC.Models.Grade", b =>

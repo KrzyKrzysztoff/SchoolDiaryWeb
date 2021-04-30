@@ -1,0 +1,30 @@
+﻿
+@model GradeViewModel
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Stwórz ocene</title>
+</head>
+<body>
+    <form method="post">
+        <label>Ocena</label>
+        <select asp-items="@Html.GetEnumSelectList<RatingEnum>()" asp-for="Rating"></select>
+        <label>Data</label>
+        <input type="datetime-local" asp-for="Date" />
+        <label>Id lekcji</label>
+        <input asp-for="LessonId" />
+        <label>Jest to ocena końcowa ?</label>
+        <input type="checkbox" asp-for="IsFinalGrade" />
+        <label>Id Studenta</label>
+        <input asp-for="StudentId" />
+        <button type="submit" asp-action="CreateGrade" asp-controller="Admin" class="btn btn-primary">Stwórz</button>
+    </form>
+    @if (ViewData["Success"] != null)
+    {
+        <h3 class="alert alert-danger">@ViewData["Success"]</h3>
+    }
+    @if (ViewData["Error"] != null)
+    {
+        <h3 class="alert alert-danger">@ViewData["Error"]</h3>
+    }
+</body>
+</html>

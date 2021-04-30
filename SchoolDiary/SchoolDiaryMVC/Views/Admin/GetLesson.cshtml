@@ -1,0 +1,20 @@
+﻿@model List<LessonViewModel>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Pokaz lekcje</title>
+</head>
+<body>
+    @foreach (var item in Model)
+    {
+        <form method="post">
+            <h3>Nazwa przedmiotu: </h3>@item.SubjectName
+            <h3>Start lekcji: </h3>@item.Start
+            <h3>Koniec zajęć: </h3>@item.End
+            <h3>Email Wychowawcy: </h3>@item.ClassGroupTeacherEmail
+            <h3>Typ lekcji</h3>@item.LessonType
+            <button type="submit"   class="btn btn-danger" asp-action="DeleteLesson" asp-controller="Admin" asp-route-id="@item.Id">Usuń</button>
+        </form>
+    }
+
+</body>
+</html>

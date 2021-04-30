@@ -1,0 +1,29 @@
+﻿@model LessonViewModel
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Stwórz lekcje</title>
+    </head>
+    <body>
+        <form method="post">
+            <label>Start zajęć</label>
+            <input type="datetime-local" asp-for="Start" />
+            <label>Koniec zajęć</label>
+            <input type="datetime-local" asp-for="End" />
+            <label>Typ zajęć</label>
+            <select asp-for="LessonType" asp-items="@Html.GetEnumSelectList<LessonTypeEnum>()"></select>
+            <label>Id klasy</label>
+            <input asp-for="ClassGroupId" />
+            <label>Id przedmiotu</label>
+            <input asp-for="SubjectNameId" />
+            <button type="submit">Stwórz</button>
+        </form>
+        @if (ViewData["Success"] != null)
+        {
+            <h3 class="alert alert-danger">@ViewData["Success"]</h3>
+        }
+        @if (ViewData["Error"] != null)
+        {
+            <h3 class="alert alert-danger">@ViewData["Error"]</h3>
+        }
+    </body>
+    </html>

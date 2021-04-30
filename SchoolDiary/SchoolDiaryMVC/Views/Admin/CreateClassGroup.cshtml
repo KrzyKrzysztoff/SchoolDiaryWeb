@@ -1,0 +1,25 @@
+﻿@model ClassGroupViewModel
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Stwórz klasę</title>
+</head>
+<body>
+    <form method="post">
+        <label>Rozmiar grupy</label>
+        <input asp-for="SizeGroup" type="number" />
+        <label>Kurs</label>
+        <select asp-items="@Html.GetEnumSelectList<CourseEnum>()" asp-for="Course"></select>
+        <label>Id wychowawcy</label>
+        <input asp-for="ClassTeacherId" />
+        <button type="submit">Stwórz</button>
+    </form>
+    @if (ViewData["Success"] != null)
+    {
+        <h3 class="alert alert-danger">@ViewData["Success"]</h3>
+    }
+    @if (ViewData["Error"] != null)
+    {
+        <h3 class="alert alert-danger">@ViewData["Error"]</h3>
+    }
+</body>
+</html>

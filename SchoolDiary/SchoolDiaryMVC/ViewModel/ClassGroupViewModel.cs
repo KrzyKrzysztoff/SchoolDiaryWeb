@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace SchoolDiaryMVC.ViewModel
 {
-    public class SubjectViewModel
+    public class ClassGroupViewModel
     {
-        public SubjectNameEnum SubjectName { get; set; }
-        public string TeacherId { get; set; }
+        public int Id { get; set; }
+        public CourseEnum Course { get; set; }
+        public int SizeGroup { get; set; }
+        public string ClassTeacherId { get; set; }
         public string TeacherEmail { get; set; }
+
     }
 }

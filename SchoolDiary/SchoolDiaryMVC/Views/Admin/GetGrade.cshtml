@@ -1,0 +1,28 @@
+﻿@model List<GradeViewModel>
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Wyswietl oceny</title>
+    </head>
+    <body>
+        @foreach (var item in Model)
+        {
+        <form method="post">
+            @if (item.IsFinalGrade == true)
+            {
+            <h3 class="text-danger">Ocena Końcowa</h3>@item.Rating}
+            <h3>Email studenta</h3>@item.StudentEmail
+            <h3>Adres Email Nauczyciela: </h3> @item.TeacherEmail
+            <h3>Typ lekcji: </h3> @item.LessonType
+            <h3>Data: </h3>@item.Date
+            }
+            <h3>Ocena</h3>@item.Rating}
+            <h3>Email studenta</h3>@item.StudentEmail
+            <h3>Adres Email Nauczyciela: </h3> @item.TeacherEmail
+            <h3>Typ lekcji: </h3> @item.LessonType
+            <h3>Data: </h3>@item.Date
+
+            <button asp-route-id="@item.Id" type="submit" class="btn btn-danger" asp-action="DeleteGrade" asp-controller="Admin">Usuń</button>
+        </form>
+        }
+    </body>
+    </html> 

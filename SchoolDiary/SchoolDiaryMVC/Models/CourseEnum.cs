@@ -7,6 +7,7 @@ namespace SchoolDiaryMVC.Models
 {
     public enum CourseEnum
     {
+        None,
         Business,
         Finance,
         ComputerScience,

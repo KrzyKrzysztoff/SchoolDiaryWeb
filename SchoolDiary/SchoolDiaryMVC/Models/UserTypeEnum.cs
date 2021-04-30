@@ -11,6 +11,8 @@ namespace SchoolDiaryMVC.Models
         [Display(Name = "Uczeń")]
         Student,
         [Display(Name = "Nauczyciel")]
-        Teacher
+        Teacher,
+        [Display(Name = "Admin")]
+        Admin,
     }
 }

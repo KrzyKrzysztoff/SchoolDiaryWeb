@@ -1,0 +1,25 @@
+﻿@model List<ClassGroupViewModel>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Wyświetl grupę</title>
+</head>
+<body>
+    @foreach (var item in Model)
+    {
+        <form method="post">
+            <h3>kurs: </h3> @item.Course
+            <h3>rozmiar grupy: </h3>@item.SizeGroup
+            <h3>Email wychowawcy grupy: </h3>@item.TeacherEmail
+            <button  type="submit" class="btn btn-danger" asp-action="DeleteClassGroup" asp-route-id="@item.Id" asp-controller="Admin">Usuń grupę</button>
+        </form>
+    }
+    @if (ViewData["Success"] != null)
+    {
+        <h3 class="alert alert-danger">@ViewData["Success"]</h3>
+    }
+    @if (ViewData["Error"] != null)
+    {
+        <h3 class="alert alert-danger">@ViewData["Error"]</h3>
+    }
+</body>
+</html>

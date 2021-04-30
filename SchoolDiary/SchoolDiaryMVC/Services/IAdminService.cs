@@ -14,7 +14,14 @@ namespace SchoolDiaryMVC.Services
         Task CreateUserAsync(UserAddressViewModel userAddressViewModel);
         Task UpdateUserAsync(UserAddressViewModel userAddressViewModel);
         Task DeleteUserAsync(string id);
-        Task CreateSubject(SubjectViewModel subjectViewModel);
-        Task DeleteSubject(int id);
+        Task CreateSubjectAsync(SubjectViewModel subjectViewModel);
+        Task DeleteSubjectAsync(int id);
+        List<Subject> GetSubject();
+        Task CreateClassGroupAsync(ClassGroupViewModel classGroupViewModel);
+        Task DeleteClassGroupAsync(int id);
+        Task DeleteLessonAsync(int id);
+        Task CreateLessonAsync(LessonViewModel lessonViewModel);
+        Task CreateGradeAsync(GradeViewModel gradeViewModel);
+        Task DeleteGradeAsync(int id);
     }
 }

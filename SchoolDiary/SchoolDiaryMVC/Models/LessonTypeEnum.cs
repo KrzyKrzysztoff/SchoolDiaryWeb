@@ -7,6 +7,7 @@ namespace SchoolDiaryMVC.Models
 {
     public enum LessonTypeEnum
     {
+        None,
         Lecture,
         Laboratory
     }

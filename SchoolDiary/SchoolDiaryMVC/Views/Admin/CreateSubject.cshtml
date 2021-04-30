@@ -1,0 +1,14 @@
+﻿@model SubjectViewModel
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Utwórz przedmiot</title>
+</head>
+<body>
+    <form method="post">
+        <label>Numer Id nauczyciela</label>
+        <input asp-for="TeacherId" />
+        <select asp-for="SubjectName" asp-items="@Html.GetEnumSelectList<SubjectNameEnum>()"></select>
+        <button type="submit">Utwórz</button>
+    </form>
+</body>
+</html>

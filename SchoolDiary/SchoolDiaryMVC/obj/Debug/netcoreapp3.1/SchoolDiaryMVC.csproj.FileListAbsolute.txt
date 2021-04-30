@@ -93,3 +93,11 @@ C:\Users\krzys\Desktop\Seminarium dyplomowe\SchoolDiaryWeb\SchoolDiary\SchoolDia
 C:\Users\krzys\Desktop\Seminarium dyplomowe\SchoolDiaryWeb\SchoolDiary\SchoolDiaryMVC\obj\Debug\netcoreapp3.1\Razor\Views\Admin\CreateUser.cshtml.g.cs
 C:\Users\krzys\Desktop\Seminarium dyplomowe\SchoolDiaryWeb\SchoolDiary\SchoolDiaryMVC\obj\Debug\netcoreapp3.1\Razor\Views\Admin\UpdateUser.cshtml.g.cs
 C:\Users\krzys\Desktop\Seminarium dyplomowe\SchoolDiaryWeb\SchoolDiary\SchoolDiaryMVC\obj\Debug\netcoreapp3.1\Razor\Views\Admin\AddToRole.cshtml.g.cs
+C:\Users\krzys\Desktop\Seminarium dyplomowe\SchoolDiaryWeb\SchoolDiary\SchoolDiaryMVC\obj\Debug\netcoreapp3.1\Razor\Views\Admin\CreateSubject.cshtml.g.cs
+C:\Users\krzys\Desktop\Seminarium dyplomowe\SchoolDiaryWeb\SchoolDiary\SchoolDiaryMVC\obj\Debug\netcoreapp3.1\Razor\Views\Admin\GetSubject.cshtml.g.cs
+C:\Users\krzys\Desktop\Seminarium dyplomowe\SchoolDiaryWeb\SchoolDiary\SchoolDiaryMVC\obj\Debug\netcoreapp3.1\Razor\Views\Admin\CreateClassGroup.cshtml.g.cs
+C:\Users\krzys\Desktop\Seminarium dyplomowe\SchoolDiaryWeb\SchoolDiary\SchoolDiaryMVC\obj\Debug\netcoreapp3.1\Razor\Views\Admin\GetClassGroup.cshtml.g.cs
+C:\Users\krzys\Desktop\Seminarium dyplomowe\SchoolDiaryWeb\SchoolDiary\SchoolDiaryMVC\obj\Debug\netcoreapp3.1\Razor\Views\Admin\CreateLesson.cshtml.g.cs
+C:\Users\krzys\Desktop\Seminarium dyplomowe\SchoolDiaryWeb\SchoolDiary\SchoolDiaryMVC\obj\Debug\netcoreapp3.1\Razor\Views\Admin\GetLesson.cshtml.g.cs
+C:\Users\krzys\Desktop\Seminarium dyplomowe\SchoolDiaryWeb\SchoolDiary\SchoolDiaryMVC\obj\Debug\netcoreapp3.1\Razor\Views\Admin\CreateGrade.cshtml.g.cs
+C:\Users\krzys\Desktop\Seminarium dyplomowe\SchoolDiaryWeb\SchoolDiary\SchoolDiaryMVC\obj\Debug\netcoreapp3.1\Razor\Views\Admin\GetGrade.cshtml.g.cs
