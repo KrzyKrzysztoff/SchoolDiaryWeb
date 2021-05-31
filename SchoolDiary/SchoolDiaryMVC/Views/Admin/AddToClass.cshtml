@@ -1,0 +1,50 @@
+﻿@model ClassGroupViewModel
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Dodaj studenta do klasy</title>
+    <link href="~/css/form-style.css" rel="stylesheet" />
+</head>
+<body>
+    <h2 class="text-center bg-light" style="margin-top:5%;">Dodaj studenta do klasy</h2>
+    <form id="contact-form" name="contact-form" method="post" asp-action="AddToClass">
+        <!--Grid row-->
+        <div class="row">
+            <!--Grid column-->
+            <div class="col-md-6">
+                <div class="md-form mb-0">
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                        <input type="number" asp-for="Id" placeholder="Id klasy" class="form-control">
+                    </div>
+                    <span asp-validation-for="Id" class="text-danger"></span>
+
+                </div>
+            </div>
+            <!--Grid column-->
+            <!--Grid column-->
+            <div class="col-md-6">
+                <div class="md-form mb-0">
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                        <input type="text" asp-for="StudentId" placeholder="Id ucznia" class="form-control">
+                    </div>
+                    <span asp-validation-for="StudentId" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary float-right">Dodaj</button>
+    </form>
+    @if (ViewData["Success"] != null)
+    {
+        <h3 class="alert alert-primary">@ViewData["Success"]</h3>
+    }
+    @if (ViewData["Error"] != null)
+    {
+        <h3 class="alert alert-danger">@ViewData["Error"]</h3>
+    }
+</body>
+</html> 

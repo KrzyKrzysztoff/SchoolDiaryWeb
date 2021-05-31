@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SchoolDiaryMVC.Data;
 using SchoolDiaryMVC.Models;
@@ -6,25 +7,24 @@ using SchoolDiaryMVC.Services;
 using SchoolDiaryMVC.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace SchoolDiaryMVC.Controllers
 {
-    
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IAdminService adminService;
         private readonly UserManager<ApplicationUser> userManager;
-        private readonly AppDbContext dbContext;
 
-        public AdminController(RoleManager<IdentityRole> roleManager, IAdminService adminService, UserManager<ApplicationUser> userManager, AppDbContext dbContext)
+        public AdminController(RoleManager<IdentityRole> roleManager, IAdminService adminService, UserManager<ApplicationUser> userManager)
         {
             this.roleManager = roleManager;
             this.adminService = adminService;
             this.userManager = userManager;
-            this.dbContext = dbContext;
         }
         [HttpGet]
         public IActionResult GetRole()
@@ -215,29 +215,19 @@ namespace SchoolDiaryMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateUser(UserAddressViewModel userAddressViewModel)
         {
-            await adminService.CreateUserAsync(userAddressViewModel);
-            ViewData["Success"] = "Użytkownik został utworzony";
-            return View();
+            if (ModelState.IsValid)
+            {
+                await adminService.CreateUserAsync(userAddressViewModel);
+                ViewData["Success"] = "Użytkownik został utworzony";
+                return View();
+            }
+            return View(userAddressViewModel);
         }
         [HttpGet]
         public async Task<IActionResult> UpdateUser(string id)
         {
-            var user = await userManager.FindByIdAsync(id);
-            UserAddressViewModel userAddressViewModel = new UserAddressViewModel();
-
-            if (userAddressViewModel != null)
-            {
-                userAddressViewModel.BirthDate = user.BirthDate;
-                userAddressViewModel.Course = user.Course;
-                userAddressViewModel.Email = user.Email;
-                userAddressViewModel.FirstName = user.FirstName;
-                userAddressViewModel.Gender = user.Gender;
-                userAddressViewModel.Index = user.Index;
-                userAddressViewModel.LastName = user.LastName;
-                userAddressViewModel.UserType = user.UserType;
-                userAddressViewModel.Accepted = user.Accepted;
-            }
-            return View(userAddressViewModel);
+            var user = await adminService.UpdateUser(id);
+            return View(user);
         }
         [HttpPost]
         public async Task<IActionResult> UpdateUser(UserAddressViewModel userAddressViewModel)
@@ -282,28 +272,8 @@ namespace SchoolDiaryMVC.Controllers
         [HttpGet]
         public IActionResult GetSubject()
         {
-            try
-            {
-                List<SubjectViewModel> subjectViewModelList = new List<SubjectViewModel>();
-                SubjectViewModel subjectViewModel = new SubjectViewModel();
-                var subjects = adminService.GetSubject();
-                foreach (var item in subjects)
-                {
-                    var teacher = dbContext.ApplicationUsers.FirstOrDefault(x => x.Id == item.TeacherId);
-                    subjectViewModel.SubjectName = item.SubjectName;
-                    subjectViewModel.TeacherEmail = teacher.Email;
-                    subjectViewModel.TeacherId = item.TeacherId;
-                    subjectViewModelList.Add(subjectViewModel);
-                }
-
-                return View(subjects);
-            }
-            catch (Exception ex)
-            {
-
-                throw new Exception(ex.Message);
-            }
-           
+            var list = adminService.GetSubjectList();
+            return View(list);
         }
         [HttpGet]
         public IActionResult CreateClassGroup()
@@ -313,41 +283,21 @@ namespace SchoolDiaryMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateClassGroup(ClassGroupViewModel classGroupViewModel)
         {
-           await adminService.CreateClassGroupAsync(classGroupViewModel);
+            await adminService.CreateClassGroupAsync(classGroupViewModel);
             ViewData["Success"] = "Klasa została stworzona";
             return View();
         }
         [HttpPost]
-        public async  Task<IActionResult> DeleteClassGroup(int id)
+        public async Task<IActionResult> DeleteClassGroup(int id)
         {
-           await adminService.DeleteClassGroupAsync(id);
+            await adminService.DeleteClassGroupAsync(id);
             return RedirectToAction("GetClassGroup");
         }
         [HttpGet]
-        public IActionResult GetClassGroup()
+        public async Task<IActionResult> GetClassGroup()
         {
-            ClassGroupViewModel classGroupViewModel = new ClassGroupViewModel();
-            List<ClassGroupViewModel> classGroupViewModelList = new List<ClassGroupViewModel>();
-            try
-            {
-                var classGroup = dbContext.ClassesGroup.ToList();
-                foreach (var item in classGroup)
-                {
-                    var teacher = dbContext.ApplicationUsers.FirstOrDefault(x => x.Id == item.ClassTeacherId);
-                    classGroupViewModel.Course = item.Course;
-                    classGroupViewModel.SizeGroup = item.SizeGroup;
-                    classGroupViewModel.TeacherEmail = teacher.Email;
-                    classGroupViewModel.Id = item.Id;
-                    classGroupViewModelList.Add(classGroupViewModel);
-                }
-                return View(classGroupViewModelList);
-            }
-            catch (Exception ex)
-            {
-
-                throw new Exception(ex.Message);
-            }
-            
+            var list = await adminService.GetClassGroup();
+            return View(list);
         }
         [HttpGet]
         public IActionResult CreateLesson()
@@ -355,39 +305,29 @@ namespace SchoolDiaryMVC.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult CreateLesson(LessonViewModel lessonViewModel)
+        public async Task<IActionResult> CreateLesson(LessonViewModel lessonViewModel)
         {
-            adminService.CreateLessonAsync(lessonViewModel);
+            await adminService.CreateLessonAsync(lessonViewModel);
             ViewData["Success"] = "Lekcja stworzona pomyślnie";
             return View();
         }
         [HttpPost]
-        public IActionResult DeleteLesson(int id)
+        public async Task<IActionResult> DeleteLesson(int id)
         {
-            adminService.DeleteLessonAsync(id);
+            await adminService.DeleteLessonAsync(id);
             return RedirectToAction("GetLesson");
         }
-        [HttpGet] 
+        [HttpGet]
         public IActionResult GetLesson()
         {
-            LessonViewModel lessonViewModel = new LessonViewModel();
-            List<LessonViewModel> lessonViewModelList = new List<LessonViewModel>();
-            var lessons = dbContext.Lessons.ToList();
-            
-            foreach (var item in lessons)
-            {
-                var subject = dbContext.Subjects.FirstOrDefault(y => y.Id == item.SubjectId);
-                var teacher = dbContext.ApplicationUsers.FirstOrDefault(x => x.Id == subject.TeacherId);
-                lessonViewModel.Date = item.Date;
-                lessonViewModel.End = item.End;
-                lessonViewModel.LessonType = item.LessonType;
-                lessonViewModel.SubjectName = subject.SubjectName;
-                lessonViewModel.ClassGroupTeacherEmail = teacher.Email;
-                lessonViewModel.Id = item.Id;
-                lessonViewModelList.Add(lessonViewModel);
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> GetLesson(int id)
+        {
+            var list = await adminService.GetLesson(id);
+            return View(list);
 
-            }
-            return View(lessonViewModelList);
         }
         [HttpGet]
         public IActionResult CreateGrade()
@@ -404,25 +344,23 @@ namespace SchoolDiaryMVC.Controllers
         [HttpGet]
         public IActionResult GetGrade()
         {
-            GradeViewModel gradeViewModel = new GradeViewModel();
-            List<GradeViewModel> gradeViewModelList = new List<GradeViewModel>();
-            var grades = dbContext.Grades.ToList();
-            foreach (var item in grades)
+            if (TempData["Success"] != null)
             {
-                var lesson = dbContext.Lessons.FirstOrDefault(x => x.Id == item.LessonId);
-                var student = dbContext.ApplicationUsers.FirstOrDefault(x => x.Id == item.StudentId && x.UserType == UserTypeEnum.Student);
-                var subject = dbContext.Subjects.FirstOrDefault(z => z.Id == lesson.SubjectId);
-                var teacher = dbContext.ApplicationUsers.FirstOrDefault(y => y.Id == subject.TeacherId && y.UserType == UserTypeEnum.Teacher);
-                gradeViewModel.Id = item.Id;
-                gradeViewModel.TeacherEmail = teacher.Email;
-                gradeViewModel.LessonType = lesson.LessonType;
-                gradeViewModel.Rating = item.Rating;
-                gradeViewModel.StudentEmail = student.Email;
-                gradeViewModel.Date = item.Date;
-                gradeViewModel.IsFinalGrade = item.IsFinalGrade;
-                gradeViewModelList.Add(gradeViewModel);
+                ViewData["Success"] = TempData["Success"].ToString();
             }
-            return View(gradeViewModelList);
+            if (TempData["Error"] != null)
+            {
+                ViewData["Error"] = TempData["Error"].ToString();
+            }
+            return View();
+        }
+        [HttpPost]
+        public IActionResult GetGrade(string id)
+        {
+
+            var user = adminService.GetUser(id);
+            return View(user);
+
         }
 
         [HttpPost]
@@ -431,6 +369,77 @@ namespace SchoolDiaryMVC.Controllers
             adminService.DeleteGradeAsync(id);
             return RedirectToAction("GetGrade");
         }
-        
+        [HttpGet]
+        public IActionResult AddNote()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddNote(NoteViewModel noteViewModel)
+        {
+            await adminService.AddNoteAsync(noteViewModel);
+            ViewData["Success"] = "Uwaga została dodana";
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> DeleteNote(int id)
+        {
+            await adminService.DeleteNoteAsync(id);
+            return RedirectToAction("GetUser");
+        }
+        [HttpGet]
+        public IActionResult GetNote()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult GetNote(string id)
+        {
+            var note = adminService.GetUser(id);
+            return View(note);
+        }
+        [HttpGet]
+        public IActionResult AddToClass()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddToClass(ClassGroupViewModel classGroupViewModel)
+        {
+            await adminService.AddToClass(classGroupViewModel);
+            ViewData["Success"] = "Uczeń został dodany";
+            return View();
+        }
+        [HttpGet]
+        public IActionResult GetClassStudent()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult GetClassStudent(int id)
+        {
+            var list = adminService.GetClassById(id);
+            return View(list);
+        }
+        [HttpGet]
+        public async Task<IActionResult> ChooseLesson()
+        {
+
+            var list = await adminService.ChooseLesson();
+            return View(list);
+
+        }
+        [HttpGet]
+        public async Task<IActionResult> SetPresence(int id)
+        {
+            var list = await adminService.GetClassToSetPresence(id);
+            return View(list);
+        }
+        [HttpPost]
+        public async Task<IActionResult> SetPresence(List<StudentPresenceViewModel> studentPresenceList)
+        {
+            await adminService.SetPresence(studentPresenceList);
+            return RedirectToAction("ChooseLesson");
+        }
     }
 }

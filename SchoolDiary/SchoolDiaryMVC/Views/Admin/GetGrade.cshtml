@@ -1,28 +1,197 @@
-﻿@model List<GradeViewModel>
-    <html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>Wyswietl oceny</title>
-    </head>
-    <body>
-        @foreach (var item in Model)
-        {
-        <form method="post">
-            @if (item.IsFinalGrade == true)
-            {
-            <h3 class="text-danger">Ocena Końcowa</h3>@item.Rating}
-            <h3>Email studenta</h3>@item.StudentEmail
-            <h3>Adres Email Nauczyciela: </h3> @item.TeacherEmail
-            <h3>Typ lekcji: </h3> @item.LessonType
-            <h3>Data: </h3>@item.Date
-            }
-            <h3>Ocena</h3>@item.Rating}
-            <h3>Email studenta</h3>@item.StudentEmail
-            <h3>Adres Email Nauczyciela: </h3> @item.TeacherEmail
-            <h3>Typ lekcji: </h3> @item.LessonType
-            <h3>Data: </h3>@item.Date
+﻿@model StudentGradeViewModel
+<html>
+<head>
+    <title>Lista ocen</title>
+    <link href="~/css/grade-style.css" rel="stylesheet" />
+</head>
+<body class="text-center">
+    @if (ViewData["Success"] != null)
+    {
+        <h3 class="alert alert-primary">@ViewData["Success"]</h3>
+    }
+    @if (ViewData["Error"] != null)
+    {
+        <h3 class="alert alert-danger">@ViewData["Error"]</h3>
+    }
+    <table class="table centre">
+        <thead>
+            <tr>
 
-            <button asp-route-id="@item.Id" type="submit" class="btn btn-danger" asp-action="DeleteGrade" asp-controller="Admin">Usuń</button>
-        </form>
-        }
-    </body>
-    </html> 
+                <th scope="col">Imię</th>
+                <th scope="col">Naziwsko</th>
+                <th scope="col">Pesel</th>
+                <th scope="col">Index</th>
+                <th scope="col">Typ użytkownika</th>
+                <th scope="col">Kurs</th>
+                <th scope="col">Type Oceny</th>
+                <th scope="col">Ocena</th>
+                <th scope="col">Nauczyciel</th>
+                <th scope="col">Typ lekcji</th>
+                <th scope="col">Przedmiot</th>
+                <th scope="col">Akcje</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="text-center">@Model.FirstName</td>
+                <td class="text-center">@Model.LastName</td>
+                <td class="text-center">@Model.Pesel</td>
+                <td class="text-center">@Model.Index</td>
+                <td class="text-center">@Model.UserType</td>
+                <td class="text-center">
+                    @switch (Model.Course)
+                    {
+                        case CourseEnum.None:
+                            <p>Brak</p>
+                            break;
+                        case CourseEnum.Business:
+                            <p>Biznes</p>
+                            break;
+                        case CourseEnum.Finance:
+                            <p>Finanse</p>
+                            break;
+                        case CourseEnum.ComputerScience:
+                            <p>Inforamtyka</p>
+                            break;
+                    }
+
+                </td>
+
+                @foreach (var item in Model.Grades)
+                {
+                    @if (item.IsFinalGrade == true)
+                    {
+
+                        <td class="text-center">
+                            <p>Ocena końcowa</p>
+                        </td>
+                        <td class="text-center">
+                            <p class="text-danger">
+                                @switch (item.Rating)
+                                {
+                                    case RatingEnum.None:
+                                    <p>Brak</p>
+                                    break;
+                                case RatingEnum.Two:
+                                    <p>2</p>
+                                    break;
+                                case RatingEnum.TwoPlus:
+                                    <p>2+</p>
+                                    break;
+                                case RatingEnum.Three:
+                                    <p>3</p>
+                                    break;
+                                case RatingEnum.ThreePlus:
+                                    <p>3+</p>
+                                    break;
+                                case RatingEnum.Four:
+                                    <p>4</p>
+                                    break;
+                                case RatingEnum.FourPlus:
+                                    <p>4+</p>
+                                    break;
+                                case RatingEnum.Five:
+                                    <p>5</p>
+                                    break;
+                                default:
+                                    break;
+                            }</p>
+                            </td>
+                        }
+                        else
+                        {
+                            <td class="text-center">
+                                <p>Ocena cząstkowa</p>
+                            </td>
+                            <td class="text-center">
+                                @switch (item.Rating)
+                                {
+                                    case RatingEnum.None:
+                                        <p>Brak</p>
+                                        break;
+                                    case RatingEnum.Two:
+                                        <p>2</p>
+                                        break;
+                                    case RatingEnum.TwoPlus:
+                                        <p>2+</p>
+                                        break;
+                                    case RatingEnum.Three:
+                                        <p>3</p>
+                                        break;
+                                    case RatingEnum.ThreePlus:
+                                        <p>3+</p>
+                                        break;
+                                    case RatingEnum.Four:
+                                        <p>4</p>
+                                        break;
+                                    case RatingEnum.FourPlus:
+                                        <p>4+</p>
+                                        break;
+                                    case RatingEnum.Five:
+                                        <p>5</p>
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            </td>
+                        }
+                    <td class="text-center">
+                        <p>@item.TeacherEmail</p>
+                    </td>
+
+                    <td class="text-center">
+                        @switch (item.LessonType)
+                        {
+                            case LessonTypeEnum.None:
+                                <p>Brak</p>
+                                break;
+                            case LessonTypeEnum.Lecture:
+                                <p>Wykład</p>
+                                break;
+                            case LessonTypeEnum.Laboratory:
+                                <p>Laboratorium</p>
+                                break;
+                            default:
+                                break;
+                        }
+                    </td>
+                    <td class="text-center">
+                        @switch (item.SubjectName)
+                        {
+                            case SubjectNameEnum.None:
+                                <p>Brak</p>
+                                break;
+                            case SubjectNameEnum.Art:
+                                <p>Plastyka</p>
+                                break;
+                            case SubjectNameEnum.Geography:
+                                <p>Geografia</p>
+                                break;
+                            case SubjectNameEnum.English:
+                                <p>Angielski</p>
+                                break;
+                            case SubjectNameEnum.Literacy:
+                                <p>Literatura</p>
+                                break;
+                            case SubjectNameEnum.Music:
+                                <p>Muzyka</p>
+                                break;
+                            default:
+                                break;
+                        }
+                    </td>
+
+                }
+
+                <td>
+                    <form method="post">
+                        <button type="submit" asp-action="DeleteGrade" asp-controller="Admin" asp-route-id="@Model.Id" class="btn btn-primary">Usuń ocene</button>
+                    </form>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</body>
+</html>

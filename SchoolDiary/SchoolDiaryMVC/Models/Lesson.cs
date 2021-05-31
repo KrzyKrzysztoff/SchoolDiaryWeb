@@ -13,8 +13,6 @@ namespace SchoolDiaryMVC.Models
         public DateTime End { get; set; }
         public LessonTypeEnum LessonType { get; set; }
         public DateTime Date { get; set; }
-        public int Test { get; set; }
-        public int Test2 { get; set; }
 
         public int? ClassGroupId { get; set; }
         [ForeignKey("ClassGroupId")]

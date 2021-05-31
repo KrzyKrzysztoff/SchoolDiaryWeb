@@ -1,0 +1,77 @@
+﻿@model List<StudentPresenceViewModel>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Lista użytkowników</title>
+    <link href="~/css/grade-style.css" rel="stylesheet" />
+</head>
+<body class="text-center">
+    @if (ViewData["Success"] != null)
+    {
+        <h3 class="alert alert-primary">@ViewData["Success"]</h3>
+    }
+    @if (ViewData["Error"] != null)
+    {
+        <h3 class="alert alert-danger">@ViewData["Error"]</h3>
+    }
+    @{
+        int i = 0;
+    }
+    @{
+
+        DateTime end = Model[0].End;
+        DateTime start = Model[0].Start;
+    }
+    <br>
+    <h2 class="text-center bg-dark">Start zajęć: @start Koniec zajęć: @end</h2>
+    <form method="post">
+    <table class="table centre text-xl-center" >
+
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Id ucznia</th>
+                <th scope="col">Id lekcji</th>
+                <th scope="col">Imię</th>
+                <th scope="col">Naziwsko</th>
+                <th scope="col">Nazwa przedmiotu</th>
+                <th scope="col">Obecność</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @for (int x = 0; x < Model.Count; x++)
+            {
+                {
+                    i++;
+                }
+
+            <tr>
+                <th scope="row">@i</th>
+                <td class="text-center"><input class="input-main" readonly asp-for="@Model[x].StudentId" /></td>
+                <td class="text-center"><input class="input-main" readonly asp-for="@Model[x].LessonId" /></td>
+                <td class="text-center"><input class="input-main" readonly asp-for="@Model[x].StudentFirstName" /></td>
+                <td class="text-center"><input class="input-main" readonly asp-for="@Model[x].StudentLastName" /></td>
+                <td class="text-center"><input class="input-main" readonly asp-for="@Model[x].SubjectName" /></td>
+
+                @if (Model[x].IsPresent == true)
+                {
+
+                    <td class="text-center text-primary">Obecny <input type="checkbox" checked asp-for="@Model[x].IsPresent" /></td>
+                }
+                else
+                {
+                    <td class="text-center text-danger">Nieobecny <input type="checkbox" asp-for="@Model[x].IsPresent" /></td>
+                }
+
+
+            </tr>
+            }
+        </tbody>
+
+    </table>
+   
+    <button type="submit" asp-action="SetPresence" asp-controller="Admin"   class="btn btn-primary">Ustaw obecność</button>
+    </form>
+</body>
+</html>

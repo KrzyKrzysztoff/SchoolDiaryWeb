@@ -10,10 +10,8 @@ namespace SchoolDiaryMVC.Models
     {
         public int Id { get; set; }
         public CourseEnum Course { get; set; }
+        public string ClassMark { get; set; }
         public int SizeGroup { get; set; }
-
-        public List<ApplicationUser> Students { get; set; }
-
         public string ClassTeacherId { get; set; }
         [ForeignKey("ClassTeacherId")]
         public ApplicationUser ClassGroupTeacher { get; set; }

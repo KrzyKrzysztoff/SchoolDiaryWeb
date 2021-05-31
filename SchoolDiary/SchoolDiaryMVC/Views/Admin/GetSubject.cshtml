@@ -1,18 +1,13 @@
 ﻿@model List<Subject>
 
-    <html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>Lista przedmiotów</title>
-    </head>
-    <body>
-        @foreach (var item in Model)
-        {
-        <form method="post">
-            <h3>Nauczyciel: @item.Teacher.Email</h3>
-            <h3>Przedmiot: @item.SubjectName</h3>
-            <button asp-action="DeleteSubject" asp-controller="Admin" class="btn btn-danger" asp-route-id="@item.Id">Usuń</button>
-        </form>
-        }
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Lista przedmiotów</title>
+    <link href="~/css/form-style.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="text-center" style="margin-top:5%;">
+        <h2 class="text-center bg-light">Przedmioty</h2>
         @if (ViewData["Success"] != null)
         {
             <h3 class="alert alert-primary">@ViewData["Success"]</h3>
@@ -21,5 +16,61 @@
         {
             <h3 class="alert alert-danger">@ViewData["Error"]</h3>
         }
-    </body>
+        <table class="table text-white table-responsive">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Email nauczyciela</th>
+                    <th scope="col">Przedmiot</th>
+                    <th scope="col">Akcje</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @{ int i = 0;}
+                @foreach (var item in Model)
+                {
+                    { i++; }
+
+                    <tr>
+
+                        <th scope="row">@i</th>
+                        <td>@item.Teacher.Email</td>
+                        <td>
+                            @switch (@item.SubjectName)
+                            {
+                                case SubjectNameEnum.None:
+                                    <p>Brak</p>
+                                    break;
+                                case SubjectNameEnum.Art:
+                                    <p>Plastyk</p>
+                                    break;
+                                case SubjectNameEnum.Geography:
+                                    <p>Geografia</p>
+                                    break;
+                                case SubjectNameEnum.English:
+                                    <p>Angielski</p>
+                                    break;
+                                case SubjectNameEnum.Literacy:
+                                    <p>Literatura</p>
+                                    break;
+                                case SubjectNameEnum.Music:
+                                    <p>Muzyka</p>
+                                    break;
+                                default:
+                                    break;
+                            }
+                    </td>
+                    <td>
+                        <form method="post">
+                            <button asp-action="DeleteSubject" asp-controller="Admin" class="btn btn-danger" asp-route-id="@item.Id">Usuń</button>
+                        </form>
+                    </td>
+                </tr>
+
+            }
+            </tbody>
+        </table>
+        </div>
+</body>
 </html> 

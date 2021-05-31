@@ -13,9 +13,12 @@ namespace SchoolDiaryMVC.ViewModel
         public DateTime Date { get; set; }
         public int LessonId { get; set; }
         public LessonTypeEnum LessonType { get; set; }
+        public bool IsPositive { get; set; }
+        public string MyProperty { get; set; }
         public string TeacherEmail { get; set; }
         public string StudentId { get; set; }
         public string StudentEmail { get; set; }
         public bool IsFinalGrade { get; set; }
+        public SubjectNameEnum SubjectName { get; set; }
     }
 }

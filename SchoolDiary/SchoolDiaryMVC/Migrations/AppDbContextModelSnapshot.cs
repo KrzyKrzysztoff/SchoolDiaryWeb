@@ -234,7 +234,7 @@ namespace SchoolDiaryMVC.Migrations
                     b.Property<string>("Country")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("HouseNumber")
+                    b.Property<int?>("HouseNumber")
                         .HasColumnType("int");
 
                     b.Property<string>("PostalCode")
@@ -255,6 +255,9 @@ namespace SchoolDiaryMVC.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("ClassMark")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ClassTeacherId")
                         .HasColumnType("nvarchar(450)");
 
@@ -266,7 +269,9 @@ namespace SchoolDiaryMVC.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClassTeacherId");
+                    b.HasIndex("ClassTeacherId")
+                        .IsUnique()
+                        .HasFilter("[ClassTeacherId] IS NOT NULL");
 
                     b.ToTable("ClassesGroup");
                 });
@@ -327,12 +332,6 @@ namespace SchoolDiaryMVC.Migrations
                     b.Property<int?>("SubjectId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Test")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Test2")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ClassGroupId");
@@ -340,6 +339,62 @@ namespace SchoolDiaryMVC.Migrations
                     b.HasIndex("SubjectId");
 
                     b.ToTable("Lessons");
+                });
+
+            modelBuilder.Entity("SchoolDiaryMVC.Models.Note", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsPositive")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("LessonId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("StudentId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LessonId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("Notes");
+                });
+
+            modelBuilder.Entity("SchoolDiaryMVC.Models.Presence", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("IsPresent")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("LessonId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("StudentId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LessonId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("Presences");
                 });
 
             modelBuilder.Entity("SchoolDiaryMVC.Models.StudentAddress", b =>
@@ -413,10 +468,10 @@ namespace SchoolDiaryMVC.Migrations
                     b.Property<bool>("Accepted")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("BirthDate")
+                    b.Property<DateTime?>("BirthDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ClassGroupId")
+                    b.Property<int>("ClassGroupId")
                         .HasColumnType("int");
 
                     b.Property<int>("Course")
@@ -428,7 +483,7 @@ namespace SchoolDiaryMVC.Migrations
                     b.Property<int>("Gender")
                         .HasColumnType("int");
 
-                    b.Property<int>("Index")
+                    b.Property<int?>("Index")
                         .HasColumnType("int");
 
                     b.Property<string>("LastName")
@@ -437,14 +492,14 @@ namespace SchoolDiaryMVC.Migrations
                     b.Property<string>("Pesel")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("SalaryPerHour")
-                        .HasColumnType("decimal(18,4)");
+                    b.Property<int?>("SalaryPerHour")
+                        .HasColumnType("int");
 
                     b.Property<int>("UserType")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("WorkedHours")
-                        .HasColumnType("decimal(18,4)");
+                    b.Property<int?>("WorkedHours")
+                        .HasColumnType("int");
 
                     b.HasIndex("ClassGroupId");
 
@@ -505,8 +560,8 @@ namespace SchoolDiaryMVC.Migrations
             modelBuilder.Entity("SchoolDiaryMVC.Models.ClassGroup", b =>
                 {
                     b.HasOne("SchoolDiaryMVC.Models.ApplicationUser", "ClassGroupTeacher")
-                        .WithMany()
-                        .HasForeignKey("ClassTeacherId");
+                        .WithOne()
+                        .HasForeignKey("SchoolDiaryMVC.Models.ClassGroup", "ClassTeacherId");
 
                     b.Navigation("ClassGroupTeacher");
                 });
@@ -539,6 +594,40 @@ namespace SchoolDiaryMVC.Migrations
                     b.Navigation("ClassGroup");
 
                     b.Navigation("Subject");
+                });
+
+            modelBuilder.Entity("SchoolDiaryMVC.Models.Note", b =>
+                {
+                    b.HasOne("SchoolDiaryMVC.Models.Lesson", "Lesson")
+                        .WithMany()
+                        .HasForeignKey("LessonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SchoolDiaryMVC.Models.ApplicationUser", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId");
+
+                    b.Navigation("Lesson");
+
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("SchoolDiaryMVC.Models.Presence", b =>
+                {
+                    b.HasOne("SchoolDiaryMVC.Models.Lesson", "Lesson")
+                        .WithMany()
+                        .HasForeignKey("LessonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SchoolDiaryMVC.Models.ApplicationUser", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId");
+
+                    b.Navigation("Lesson");
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("SchoolDiaryMVC.Models.StudentAddress", b =>
@@ -584,9 +673,13 @@ namespace SchoolDiaryMVC.Migrations
 
             modelBuilder.Entity("SchoolDiaryMVC.Models.ApplicationUser", b =>
                 {
-                    b.HasOne("SchoolDiaryMVC.Models.ClassGroup", null)
-                        .WithMany("Students")
-                        .HasForeignKey("ClassGroupId");
+                    b.HasOne("SchoolDiaryMVC.Models.ClassGroup", "ClassGroup")
+                        .WithMany()
+                        .HasForeignKey("ClassGroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ClassGroup");
                 });
 
             modelBuilder.Entity("SchoolDiaryMVC.Models.Address", b =>
@@ -594,11 +687,6 @@ namespace SchoolDiaryMVC.Migrations
                     b.Navigation("StudentAddresses");
 
                     b.Navigation("TeacherAddreses");
-                });
-
-            modelBuilder.Entity("SchoolDiaryMVC.Models.ClassGroup", b =>
-                {
-                    b.Navigation("Students");
                 });
 
             modelBuilder.Entity("SchoolDiaryMVC.Models.ApplicationUser", b =>

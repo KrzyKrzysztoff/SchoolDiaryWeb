@@ -2,17 +2,64 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Stwórz klasę</title>
+    <link href="~/css/form-style.css" rel="stylesheet" />
 </head>
 <body>
-    <form method="post">
-        <label>Rozmiar grupy</label>
-        <input asp-for="SizeGroup" type="number" />
-        <label>Kurs</label>
-        <select asp-items="@Html.GetEnumSelectList<CourseEnum>()" asp-for="Course"></select>
-        <label>Id wychowawcy</label>
-        <input asp-for="ClassTeacherId" />
-        <button type="submit">Stwórz</button>
-    </form>
+    <div class="row d-flex justify-content-center">
+
+        <!--Grid column-->
+        <div class="col-md-9 mb-md-0 mb-5 user-input">
+            <h2 class="text-center bg-light">Stwórz klasę</h2>
+            <form name="contact-form" method="post" asp-action="CreateClassGroup">
+                <!--Grid row-->
+                <div class="row">
+                    <!--Grid column-->
+                    <div class="col-md-6">
+                        <div class="md-form mb-0">
+                            <div class="input-group form-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                                </div>
+                                <input type="text" asp-for="SizeGroup" placeholder="Rozmiar grupy" class="form-control">
+                            </div>
+                            <span asp-validation-for="SizeGroup" class="text-danger"></span>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="md-form mb-0">
+                            <div class="input-group form-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                                </div>
+                                <input type="text" asp-for="ClassTeacherId" placeholder="Id wychowawcy" class="form-control">
+                            </div>
+                            <span asp-validation-for="ClassTeacherId" class="text-danger"></span>
+                        </div>
+                    </div> 
+                    <div class="col-md-6">
+                        <div class="md-form mb-0">
+                            <div class="input-group form-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                                </div>
+                                <input type="text" asp-for="ClassMark" placeholder="Ozaczenie klasy(np. 1A, 3C)" class="form-control">
+                            </div>
+                            <span asp-validation-for="ClassMark" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+
+                </div><div class="input-group form-group">
+                    <select class="custom-select" asp-items="@Html.GetEnumSelectList<CourseEnum>()" asp-for="Course"></select>
+                </div>
+                <div class="form-group create-user-button">
+                    <input type="submit" value="Stwórz" class="btn float-right login_btn">
+                </div>
+            </form>
+        </div>
+    </div>
     @if (ViewData["Success"] != null)
     {
         <h3 class="alert alert-danger">@ViewData["Success"]</h3>

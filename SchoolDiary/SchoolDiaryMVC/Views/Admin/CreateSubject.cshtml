@@ -2,13 +2,41 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Utwórz przedmiot</title>
+    <link href="~/css/form-style.css" rel="stylesheet" />
 </head>
 <body>
-    <form method="post">
-        <label>Numer Id nauczyciela</label>
-        <input asp-for="TeacherId" />
-        <select asp-for="SubjectName" asp-items="@Html.GetEnumSelectList<SubjectNameEnum>()"></select>
-        <button type="submit">Utwórz</button>
+ 
+
+
+    <h2 class="text-center bg-light" style="margin-top:5%;">Stwórz przedmiot</h2>
+    <form id="contact-form" name="contact-form" method="post" asp-action="AddToRole">
+        <!--Grid row-->
+        <div class="row">
+            <!--Grid column-->
+            <div class="col-md-6">
+                <div class="md-form mb-0">
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                        <input type="text" asp-for="TeacherId" placeholder="Numer id nauczyciela" class="form-control">
+                    </div>
+                    <span asp-validation-for="TeacherId" class="text-danger"></span>
+
+                </div>
+            </div>
+            <!--Grid column-->
+            <!--Grid column-->
+            <div class="col-md-6">
+                <div class="md-form mb-0">
+                    <div class="input-group form-group">
+                        <select class="custom-select" asp-items="@Html.GetEnumSelectList<SubjectNameEnum>()" asp-for="SubjectName"></select>
+                    </div>
+                </div>
+        </div>
+           </div>
+        
+        <button type="submit" class="btn btn-primary float-right">Stwórz</button>
     </form>
 </body>
 </html>

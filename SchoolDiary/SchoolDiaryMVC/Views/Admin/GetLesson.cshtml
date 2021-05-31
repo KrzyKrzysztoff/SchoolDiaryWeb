@@ -2,19 +2,79 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Pokaz lekcje</title>
+    <link href="~/css/form-style.css" rel="stylesheet" />
 </head>
 <body>
-    @foreach (var item in Model)
-    {
-        <form method="post">
-            <h3>Nazwa przedmiotu: </h3>@item.SubjectName
-            <h3>Start lekcji: </h3>@item.Start
-            <h3>Koniec zajęć: </h3>@item.End
-            <h3>Email Wychowawcy: </h3>@item.ClassGroupTeacherEmail
-            <h3>Typ lekcji</h3>@item.LessonType
-            <button type="submit"   class="btn btn-danger" asp-action="DeleteLesson" asp-controller="Admin" asp-route-id="@item.Id">Usuń</button>
-        </form>
-    }
+    <h2 class="text-center bg-light" style="margin-top:5%;">Lekcje</h2>
+    <table class="table text-white">
+        <thead>
+            <tr>
+                <th scope="col">Nazwa przedmiotu</th>
+                <th scope="col">Start zajęć</th>
+                <th scope="col">Koniec zajęć</th>
+                <th scope="col">Email nauczyciela</th>
+                <th scope="col">Typ zajęć</th>
+                <th scope="col">Akcje</th>
+            </tr>
+        </thead>
+        <tbody> 
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @switch (@item.SubjectName)
+                        {
+                            case SubjectNameEnum.None:
+                                <p>Brak</p>
+                                break;
+                            case SubjectNameEnum.Art:
+                                <p>Plastyka</p>
+                                break;
+                            case SubjectNameEnum.Geography:
+                                <p>Geografia</p>
+                                break;
+                            case SubjectNameEnum.English:
+                                <p>Angielski</p>
+                                break;
+                            case SubjectNameEnum.Literacy:
+                                <p>Literatura</p>
+                                break;
+                            case SubjectNameEnum.Music:
+                                <p>Muzyka</p>
+                                break;
+                            default:
+                                break;
+                        }
+                    </td>
+                    <td>@item.Start</td>
+                    <td>@item.End</td>
+                    <td>@item.ClassGroupTeacherEmail</td>
+                    <td>
+                        @switch (@item.LessonType)
+                        {
+                            case LessonTypeEnum.None:
+                                <p>Brak</p>
+                                break;
+                            case LessonTypeEnum.Lecture:
+                                <p>Wykład</p>
+                                break;
+                            case LessonTypeEnum.Laboratory:
+                                <p>Laboratorium</p>
+                                break;
+                            default:
+                                break;
+                        }
+                </td>
+                <td>
+                    <form>
+                        <button type="submit" formmethod="post" asp-action="DeleteLesson" asp-controller="Admin" class="btn btn-danger" asp-route-id="@item.Id">Usuń</button>
+                        <a asp-action="SetPresence" asp-controller="Admin" class="btn btn-danger" asp-route-id="@item.Id">Ustaw obecność</a>
+                    </form>
+                </td>
+            </tr>
 
+        }
+        </tbody>
+    </table>
 </body>
 </html>

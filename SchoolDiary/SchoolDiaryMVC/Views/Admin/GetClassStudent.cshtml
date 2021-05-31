@@ -1,0 +1,50 @@
+﻿@model List<StudentClassViewModel>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Lista użytkowników</title>
+    <link href="~/css/grade-style.css" rel="stylesheet" />
+</head>
+<body class="text-center">
+    @if (ViewData["Success"] != null)
+    {
+        <h3 class="alert alert-primary">@ViewData["Success"]</h3>
+    }
+    @if (ViewData["Error"] != null)
+    {
+        <h3 class="alert alert-danger">@ViewData["Error"]</h3>
+    }
+    <table class="table centre">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Imię</th>
+                <th scope="col">Naziwsko</th>
+                <th scope="col">Email nauczyciela</th>
+                <th scope="col">Rozmiar grupy</th>
+                <th scope="col">Oznaczenie klasy</th>
+   
+
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int i = 0;
+            }
+            @foreach (var item in Model)
+            {
+                {
+                    i++;
+                }
+                <tr>
+                    <th scope="row">@i</th>
+                    <td class="text-center">@item.StudentName</td>
+                    <td class="text-center">@item.StudentLastName</td>
+                    <td class="text-center">@item.TeacherEmail</td>
+                    <td class="text-center">@item.SizeGroup</td>
+                    <td class="text-center">@item.ClassMark</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>

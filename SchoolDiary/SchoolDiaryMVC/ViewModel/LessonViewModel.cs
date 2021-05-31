@@ -13,9 +13,11 @@ namespace SchoolDiaryMVC.ViewModel
         public DateTime End { get; set; }
         public LessonTypeEnum LessonType { get; set; }
         public DateTime Date { get; set; }
+
         public int ClassGroupId { get; set; }
         public string ClassGroupTeacherEmail { get; set; }
         public int SubjectNameId { get; set; }
         public SubjectNameEnum SubjectName { get; set; }
+
     }
 }

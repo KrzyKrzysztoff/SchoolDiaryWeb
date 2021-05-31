@@ -1,24 +1,91 @@
 ﻿@model RegisterViewModel
-<html xmlns="http://www.w3.org/1999/xhtml">
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<!DOCTYPE html>
+<html>
 <head>
     <title>Rejestracja</title>
+    <!--Made with love by Mutiullah Samim -->
+    <!--Bootsrap 4 CDN-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <!--Fontawesome CDN-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+    <!--Custom styles-->
+    <link href="~/css/form-style.css" rel="stylesheet" />
+
 </head>
 <body>
-    <form method="post" asp-action="register" class="form-group">
-        <label>Imię</label>
-        <input asp-for="FirstName" placeholder="FirstName" />
-        <label>Email</label>
-        <input asp-for="Email" placeholder="Email" />
-        <label>Password</label>
-        <input type="password" asp-for="Password" placeholder="Hasło" />
-        <label>Number pesel</label>
-        <input asp-for="Pesel" placeholder="Pesel" />
-        <select asp-for="UserType" asp-items="@Html.GetEnumSelectList<UserTypeEnum>()"></select>
-        <button type="submit" class="btn btn-primary">Zarejestruj się</button>
-    </form>
-    @if (ViewData["Wait"] != null)
-    {
-        <h3 class="alert alert-danger">@ViewData["Wait"]</h3>
-    }
+    <div class="container">
+        <div class="d-flex justify-content-center h-100">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Rejestracja</h3>
+                    <div class="d-flex justify-content-end social_icon">
+                        <span><i class="fab fa-facebook-square"></i></span>
+                        <span><i class="fab fa-google-plus-square"></i></span>
+                        <span><i class="fab fa-twitter-square"></i></span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form method="post" asp-action="Register">
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            </div>
+                            <input type="text" asp-for="FirstName" class="form-control" placeholder="Imię">
+                        </div>
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-at"></i></span>
+                            </div>
+                            <input type="email" asp-for="Email" class="form-control" placeholder="Email">
+                        </div>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                            </div>
+                            <input type="text" asp-for="Pesel" class="form-control" placeholder="Pesel">
+                        </div>
+                        <span asp-validation-for="Pesel" class="text-danger"></span>
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                            </div>
+                            <input type="password" asp-for="Password" class="form-control" placeholder="Hasło">
+                        </div>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                        <div class="input-group form-group">
+                            <select class="custom-select" asp-items="@Html.GetEnumSelectList<UserTypeEnum>()" asp-for="UserType"></select>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Rejestruj" class="btn float-right login_btn">
+                        </div>
+                    </form>
+
+                </div>
+                <div class="card-footer">
+                    <div class="d-flex justify-content-center links">
+                        Posiadasz konto? <a asp-action="Login" asp-controller="Account">Zaloguj się</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @if (ViewData["Wait"] != null)
+        {
+            <h4 class="alert alert-danger text-center view-data">@ViewData["Wait"]</h4>
+        }
+        @if (ViewData["Error"] != null)
+        {
+            <h4 class="alert alert-danger text-center view-data">@ViewData["Error"]</h4>
+        }
+    </div>
+
 </body>
 </html>

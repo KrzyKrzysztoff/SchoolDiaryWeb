@@ -1,0 +1,30 @@
+﻿@model List<ClassGroupViewModel>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Wybierz klasę</title>
+    <link href="~/css/form-style.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="text-center" style="margin-top:5%;">
+        <h2 class="text-center bg-light">Wybierz klase</h2>
+        @foreach (var item in Model)
+        {
+            <h4 class="text-info">Oznacznie: @item.ClassMark</h4>
+            <h4 class="text-info">Wychowawca: @item.SizeGroup</h4>
+            <form method="post">
+                <button  type="submit" class="btn btn-info" asp-action="GetLesson" asp-controller="Admin" asp-route-id="@item.Id">Wybierz klasę</button>
+            </form>
+        }
+    </div>
+    @if (ViewData["Success"] != null)
+    {
+        <h3 class="alert alert-primary">@ViewData["Success"]</h3>
+    }
+    @if (ViewData["Error"] != null)
+    {
+        <h3 class="alert alert-danger">@ViewData["Error"]</h3>
+    }
+
+</body>
+</html>

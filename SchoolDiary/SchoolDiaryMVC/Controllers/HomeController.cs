@@ -20,12 +20,9 @@ namespace SchoolDiaryMVC.Controllers
 
         public IActionResult Index()
         {
-            if (TempData["Wait"] != null)
-            {
-                ViewData["Wait"] = TempData["Error"].ToString();
-            }
             return View();
         }
+
 
         public IActionResult Privacy()
         {

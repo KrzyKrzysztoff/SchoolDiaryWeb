@@ -2,17 +2,62 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Wyświetl grupę</title>
+    <link href="~/css/form-style.css" rel="stylesheet" />
 </head>
 <body>
-    @foreach (var item in Model)
-    {
-        <form method="post">
-            <h3>kurs: </h3> @item.Course
-            <h3>rozmiar grupy: </h3>@item.SizeGroup
-            <h3>Email wychowawcy grupy: </h3>@item.TeacherEmail
-            <button  type="submit" class="btn btn-danger" asp-action="DeleteClassGroup" asp-route-id="@item.Id" asp-controller="Admin">Usuń grupę</button>
-        </form>
-    }
+    <h2 class="text-center bg-light" style="margin-top:5%;">Grupy</h2>
+    <table class="table text-white table-responsive text-center justify-content-center">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Kurs</th>
+                <th scope="col">Rozmiar grupy</th>
+                <th scope="col">Email wychowawcy</th>
+                <th scope="col">Oznacznie</th>
+                <th scope="col">Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int i = 0;}
+            @foreach (var item in Model)
+            {
+                { i++; }
+
+                <tr>
+                    <th scope="row">@i</th>
+                    <td>
+                        @switch (@item.Course)
+                        {
+                            case CourseEnum.None:
+                                <p>Brak</p>
+                                break;
+                            case CourseEnum.Business:
+                                <p>Biznes</p>
+                                break;
+                            case CourseEnum.Finance:
+                                <p>Finanse</p>
+                                break;
+                            case CourseEnum.ComputerScience:
+                                <p>Informatyka</p>
+                                break;
+                            default:
+                                break;
+                        }
+                </td>
+                <td>@item.SizeGroup</td>
+                <td>@item.TeacherEmail</td>
+                <td>@item.ClassMark</td>
+                <td>
+                    <form method="post">
+                        <button asp-action="DeleteClassGroup" asp-controller="Admin" class="btn btn-danger" asp-route-id="@item.Id">Usuń</button>          
+                        <button asp-action="GetClassStudent" asp-controller="Admin" class="btn btn-danger" asp-route-id="@item.Id">Pokaż uczniów</button>          
+                    </form>
+                </td>
+            </tr>
+
+        }
+        </tbody>
+    </table>
     @if (ViewData["Success"] != null)
     {
         <h3 class="alert alert-danger">@ViewData["Success"]</h3>

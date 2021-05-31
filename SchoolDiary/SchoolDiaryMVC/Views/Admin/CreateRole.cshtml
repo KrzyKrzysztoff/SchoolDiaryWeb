@@ -2,17 +2,55 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Utwórz role</title>
+    <link href="~/css/form-style.css" rel="stylesheet" />
 </head>
 <body>
-    <h1>Utwórz role</h1>
-    <form action="CreateRole" method="post">
-        <label>Nazwa uprawnienia</label>
-        <input asp-for="Name" placeholder="Nazwa uprawnienia" />
-        <button type="submit">Stwórz</button>
-        @if (ViewData["Error"] != null)
-        {
-            <h3 class="alert alert-danger">@ViewData["Error"]</h3>
-        }
-    </form>
+    <div class="row d-flex justify-content-center">
+
+        <!--Grid column-->
+        <div class="col-md-9 mb-md-0 mb-5 user-input">
+            <h2 class="text-center bg-light">Stwórz nowe uprawnienia</h2>
+            <form name="contact-form" method="post" asp-action="CreateRole">
+                <!--Grid row-->
+                <div class="row">
+                    <!--Grid column-->
+                    <div class="col-md-6">
+                        <div class="md-form mb-0">
+                            <div class="input-group form-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                                </div>
+                                <input type="text" readonly asp-for="Id" placeholder="Id" class="form-control">
+                            </div>
+                            <span asp-validation-for="Id" class="text-danger"></span>
+
+                        </div>
+                    </div>
+                    <!--Grid column-->
+                    <!--Grid column-->
+                    <div class="col-md-6">
+                        <div class="md-form mb-0">
+                            <div class="input-group form-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                </div>
+                                <input type="text" asp-for="Name" placeholder="Nazwa" class="form-control">
+                            </div>
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group create-user-button">
+                    <input type="submit" value="Stwórz" class="btn float-right login_btn">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    @if (ViewData["Error"] != null)
+    {
+        <h3 class="alert alert-danger">@ViewData["Error"]</h3>
+    }
+
 </body>
 </html>

@@ -2,18 +2,21 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Zobacz uprawnienia</title>
+    <title>Uprawnienia</title>
+    <link href="~/css/form-style.css" rel="stylesheet" />
 </head>
 <body>
-    <h1>Zobacz uprawnienia</h1>
-    @foreach (var item in Model)
-    {
-        @item.Name
-        <form method="post">
-            <button type="submit" class="btn btn-primary" asp-action="DeleteRole" asp-controller="Admin" asp-route-name="@item.Name">Usuń uprawnienia</button>
-            <button formmethod="get" type="submit" class="btn btn-info" asp-action="UpdateRole" asp-controller="Admin" asp-route-id="@item.Id">Edytuj uprawnienia</button>
-        </form>
-    }
+    <div class="text-center" style="margin-top:5%;">
+        <h2 class="text-center bg-light">Uprawnienia</h2>
+        @foreach (var item in Model)
+        {
+            <h4 class="text-info">@item.Name</h4>
+            <form method="post">
+                <button type="submit" class="btn btn-primary" asp-action="DeleteRole" asp-controller="Admin" asp-route-name="@item.Name">Usuń uprawnienia</button>
+                <button formmethod="get" type="submit" class="btn btn-info" asp-action="UpdateRole" asp-controller="Admin" asp-route-id="@item.Id">Edytuj uprawnienia</button>
+            </form>
+        }
+    </div>
     @if (ViewData["Success"] != null)
     {
         <h3 class="alert alert-primary">@ViewData["Success"]</h3>
@@ -22,5 +25,6 @@
     {
         <h3 class="alert alert-danger">@ViewData["Error"]</h3>
     }
+
 </body>
 </html>

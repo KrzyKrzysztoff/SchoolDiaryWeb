@@ -23,5 +23,7 @@ namespace SchoolDiaryMVC.Data
         public DbSet<Lesson> Lessons { get; set; }
      //   public DbSet<FinalGrade> FinalGrades { get; set; }
         public DbSet<Address> Addresses { get; set; }
+        public DbSet<Note> Notes { get; set; }
+        public DbSet<Presence> Presences { get; set; }
     }
 }

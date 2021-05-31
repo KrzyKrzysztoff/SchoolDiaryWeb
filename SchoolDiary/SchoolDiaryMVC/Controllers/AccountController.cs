@@ -38,7 +38,7 @@ namespace SchoolDiaryMVC.Controllers
                 {
                     if (user.Accepted == true)
                     {
-                        return RedirectToAction("Main", "User");
+                        return RedirectToAction("Index", "Home");
                     }
                     else
                     {
@@ -46,6 +46,7 @@ namespace SchoolDiaryMVC.Controllers
                         ViewData["Wait"] = "Użytkownik nie został jeszcze zaakacpetowany";
                     }
                 }
+                ViewData["Error"] = "Niepoprawne hasło lub email";
                 ModelState.AddModelError(string.Empty, "Logowanie nie powiodło się");
                 return View(loginViewModel);
             }
@@ -69,29 +70,35 @@ namespace SchoolDiaryMVC.Controllers
                     UserType = registerViewModel.UserType,
                     FirstName = registerViewModel.FirstName,
                     Pesel = registerViewModel.Pesel,
-                };
-                //here have to wait for Administration accept(do this better), if user is accepted .
+                };        
+                var user = await userManager.FindByEmailAsync(applicationUser.Email);
+                if (user != null)
+                {
+                    ViewData["Error"] = "Podany użytkownik już istnieje";
+                }
                 var result = await userManager.CreateAsync(applicationUser, registerViewModel.Password);
                 if (result.Succeeded)
                 {
-                    // await signInManager.SignInAsync(applicationUser, registerViewModel.RememberMe);
-                    ViewData["Wait"] = "Użytkownik nie został jeszcze zaakacpetowany";
+                    ViewData["Wait"] = "Użytkownik musi musi zostać zaakceptowany. Wróć tu później";
                     return View(registerViewModel);
                 }
                 foreach (var item in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, item.Description);
                 }
+                ViewData["Error"] = "Użytkownik nie może zostać stworzony";
                 ModelState.AddModelError(string.Empty, "Logowanie nie powiodło się");
             }
             return View(registerViewModel);
         }
+
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
+
     }
 }
 

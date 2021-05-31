@@ -1,0 +1,80 @@
+﻿@model NoteViewModel
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Wystaw uwagę</title>
+    <link href="~/css/form-style.css" rel="stylesheet" />
+</head>
+<body>
+    <h2 class="text-center bg-light" style="margin-top:5%;">Nadaj uprawnienia</h2>
+    <form id="contact-form" name="contact-form" method="post" asp-action="AddNote">
+        <!--Grid row-->
+        <div class="row">
+            <!--Grid column-->
+            <div class="col-md-6">
+                <div class="md-form mb-0">
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                        <input type="text" asp-for="Desc" placeholder="Notatka" class="form-control">
+                    </div>
+                    <span asp-validation-for="Desc" class="text-danger"></span>
+
+                </div>
+            </div>
+            <!--Grid column-->
+            <!--Grid column-->
+            <div class="col-md-6">
+                <div class="md-form mb-0">
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                        <input type="datetime-local" asp-for="Date" class="form-control">
+                    </div>
+                    <span asp-validation-for="Date" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="md-form mb-0">
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                        <input type="number" asp-for="LessonId" placeholder="Numer Id lekcji" class="form-control">
+                    </div>
+                    <span asp-validation-for="LessonId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="md-form mb-0">
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                        <input type="text" asp-for="StudentId" placeholder="Numer Id ucznia" class="form-control">
+                    </div>
+                    <span asp-validation-for="StudentId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="md-form mb-0">
+                    <div class="input-group form-group">
+                        <input style="margin-right:2.5%;" type="checkbox" asp-for="IsPositive" />
+                        <label class="text-info">Jest to pozytywna uwaga?</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary float-right">Nadaj</button>
+    </form>
+    @if (ViewData["Success"] != null)
+    {
+        <h3 class="alert alert-primary">@ViewData["Success"]</h3>
+    }
+    @if (ViewData["Error"] != null)
+    {
+        <h3 class="alert alert-danger">@ViewData["Error"]</h3>
+    }
+</body>
+</html> 

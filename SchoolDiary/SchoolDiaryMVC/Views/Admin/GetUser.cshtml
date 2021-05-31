@@ -1,9 +1,10 @@
-﻿@model List<ApplicationUser>
+﻿@model List<StudentGradeViewModel>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Lista użytkowników</title>
+    <link href="~/css/grade-style.css" rel="stylesheet" />
 </head>
-<body>
+<body class="text-center">
     @if (ViewData["Success"] != null)
     {
         <h3 class="alert alert-primary">@ViewData["Success"]</h3>
@@ -12,29 +13,76 @@
     {
         <h3 class="alert alert-danger">@ViewData["Error"]</h3>
     }
-    @foreach (var item in Model)
-    {
+    <h2 class="text-center bg-light" style="margin-top:5%; color:black">Studenci</h2>
+    <div class="row justify-content-center">
+    <div class="col-auto">
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Imię</th>
+                    <th scope="col">Naziwsko</th>
+                    <th scope="col">Pesel</th>
+                    <th scope="col">Index</th>
+                    <th scope="col">Typ użytkownika</th>
+                    <th scope="col">Kurs</th>
+                    <th scope="col">Akceptacja</th>
+                    <th scope="col">Akcje</th>
 
-        @item.FirstName
-        @item.LastName
-        @item.Email
-        @item.BirthDate
-
-        @if (item.Accepted == false)
-        {
-            <h3 class="text-danger">Użytkownik do akcpetacji</h3>
-            <form method="post">
-                <button asp-action="AcceptUser" asp-controller="Admin" asp-route-id="@item.Id" class="btn btn-primary">Akcpetuj użytkownika</button>
-            </form>
-        }
-        <form method="post">
-            <button formmethod="get" asp-action="UpdateUser" asp-controller="Admin" asp-route-id="@item.Id" class="btn btn-primary">Edytuj użytkownika</button>
-            <button asp-action="DeleteUser" asp-controller="Admin" asp-route-id="@item.Id" class="btn btn-primary">Usuń</button>
-        </form>
-        @if (item.Accepted == true)
-        {
-            <h3 class="text-primary">Użytkownik zaakceptowany</h3>
-        }
-    }
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int i = 0;
+                }
+                @foreach (var item in Model)
+                {
+                    {
+                        i++;
+                    }
+                    <tr>
+                        <th scope="row">@i</th>
+                        <td class="text-center">@item.FirstName</td>
+                        <td class="text-center">@item.LastName</td>
+                        <td class="text-center">@item.Pesel</td>
+                        <td class="text-center">@item.Index</td>
+                        <td class="text-center">@item.UserType</td>
+                        <td class="text-center">
+                            @switch (@item.Course)
+                            {
+                                case CourseEnum.None:
+                                    <p>Brak</p>
+                                    break;
+                                case CourseEnum.Business:
+                                    <p>Biznes</p>
+                                    break;
+                                case CourseEnum.Finance:
+                                    <p>Finanse</p>
+                                    break;
+                                case CourseEnum.ComputerScience:
+                                    <p>Inforamtyka</p>
+                                    break;
+                            }
+                        </td>
+                        <td>
+                            @if (item.IsAccepted == true)
+                            {
+                                <h3 class="text-primary">Użytkownik zaakceptowany</h3>
+                            }
+                        </td>
+                        <td>
+                            <form>
+                                <a asp-action="UpdateUser" asp-controller="Admin" asp-route-id="@item.Id" class="btn btn-primary">Edytuj użytkownika</a>
+                                <button style="margin:1%;" formmethod="post" asp-action="DeleteUser" type="submit" asp-controller="Admin" asp-route-id="@item.Id" class="btn btn-primary">Usuń</button>
+                                <button style="margin:1%;"formmethod="post" type="submit" asp-action="GetNote" asp-controller="Admin" asp-route-id="@item.Id" class="btn btn-primary">Zobacz uwagi</button>
+                                <button style="margin:1%;"formmethod="post" type="submit" asp-action="GetGrade" asp-controller="Admin" asp-route-id="@item.Id" class="btn btn-primary">Zobacz oceny</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        </div>
+    </div>
 </body>
 </html>

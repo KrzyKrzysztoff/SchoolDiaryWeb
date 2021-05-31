@@ -1,0 +1,91 @@
+﻿@model UserAddressViewModel
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Profil</title>
+    <link href="~/css/form-style.css" rel="stylesheet" />
+</head>
+<body>
+    <h2 class="text-center bg-light" style="margin-top:3%;color:black;">Profil</h2>
+    <table class="table text-white table-responsive">
+        <thead>
+            <tr>
+                <th scope="col">Imię</th>
+                <th scope="col">Naziwsko</th>
+                <th scope="col">Płeć</th>
+                <th scope="col">Index</th>
+                <th scope="col">Pesel</th>
+                <th scope="col">Kurs</th>
+                <th scope="col">Data urodzenia</th>
+                <th scope="col">Typ użytkownika</th>
+                @if (Model.UserType != UserTypeEnum.Student)
+                {
+                    <th scope="col">Przepracowane godziny</th>
+                    <th scope="col">Stawka na godzinę</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.FirstName</td>
+                <td>@Model.LastName</td>
+                <td>
+                    @switch (@Model.Gender)
+                    {
+                        case GenderEnum.Male:
+                            <p>Mężczyzna</p>
+                            break;
+                        case GenderEnum.Female:
+                            <p>Kobieta</p>
+                            break;
+                        default:
+                            break;
+                    }
+                </td>
+                <td>@Model.Index</td>
+                <td>@Model.Pesel</td>
+                <td>
+                    @switch (@Model.Course)
+                    {
+                        case CourseEnum.None:
+                            <p>Brak</p>
+                            break;
+                        case CourseEnum.Business:
+                            <p>Biznes</p>
+                            break;
+                        case CourseEnum.Finance:
+                            <p>Finanse</p>
+                            break;
+                        case CourseEnum.ComputerScience:
+                            <p>Informatyka</p>
+                            break;
+                        default:
+                            break;
+                    }
+                </td>
+                <td>@Model.BirthDate</td>
+                <td>
+                    @switch (@Model.UserType)
+                    {
+                        case UserTypeEnum.Student:
+                            <p>Student</p>
+                            break;
+                        case UserTypeEnum.Teacher:
+                            <p>Nauczyciel</p>
+                            break;
+                        case UserTypeEnum.Admin:
+                            <p>Admin</p>
+                            break;
+                        default:
+                            break;
+                    }
+                </td>
+                @if (Model.UserType != UserTypeEnum.Student)
+                {
+                    <td scope="col">@Model.WorkedHours</td>
+                    <td scope="col">@Model.SalaryPerHour</td>
+                }
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

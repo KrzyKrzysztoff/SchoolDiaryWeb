@@ -1,0 +1,98 @@
+﻿@model StudentGradeViewModel
+
+<head>
+    <title>Lista uwag</title>
+    <link href="~/css/grade-style.css" rel="stylesheet" />
+</head>
+<body class="text-center">
+    @if (ViewData["Success"] != null)
+    {
+        <h3 class="alert alert-primary">@ViewData["Success"]</h3>
+    }
+    @if (ViewData["Error"] != null)
+    {
+        <h3 class="alert alert-danger">@ViewData["Error"]</h3>
+    }
+    <table class="table centre">
+        <thead>
+            <tr>
+
+                <th scope="col">Imię</th>
+                <th scope="col">Naziwsko</th>
+                <th scope="col">Pesel</th>
+                <th scope="col">Index</th>
+                <th scope="col">Typ użytkownika</th>
+                <th scope="col">Kurs</th>
+                <th scope="col">Uwaga</th>
+                <th scope="col">Opis</th>
+                <th scope="col">Data</th>
+                <th scope="col">Lekcja</th>
+                <th scope="col">Akcje</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="text-center">@Model.FirstName</td>
+                <td class="text-center">@Model.LastName</td>
+                <td class="text-center">@Model.Pesel</td>
+                <td class="text-center">@Model.Index</td>
+                <td class="text-center">@Model.UserType</td>
+                <td class="text-center">
+                    @switch (Model.Course)
+                    {
+                        case CourseEnum.None:
+                            <p>Brak</p>
+                            break;
+                        case CourseEnum.Business:
+                            <p>Biznes</p>
+                            break;
+                        case CourseEnum.Finance:
+                            <p>Finanse</p>
+                            break;
+                        case CourseEnum.ComputerScience:
+                            <p>Inforamtyka</p>
+                            break;
+                    }
+
+                </td>
+
+                @foreach (var item in Model.Notes)
+                {
+                    @if (item.IsPositive == true)
+                    {
+
+                        <td class="text-center">
+                            <p>Uwaga pozytywna</p>
+                        </td>
+                    }
+                    else
+                    {
+                        <td class="text-center">
+                            <p>Uwaga negatywna</p>
+                        </td>
+                    }
+                    <td class="text-center">
+                        <p>@item.Desc</p>
+                    </td>
+                    <td class="text-center">
+
+                        <p>@item.Date</p>
+                    </td>
+                    <td class="text-center">
+                        <p>@item.LessonName</p>
+                    </td>
+
+                }
+
+                <td>
+                    <form method="post">
+                        <button type="submit" asp-action="DeleteNote" asp-controller="Admin" asp-route-id="@Model.Id" class="btn btn-primary">Usuń uwage</button>
+                    </form>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</body>
+    </html>

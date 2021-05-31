@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SchoolDiaryMVC.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,17 @@ namespace SchoolDiaryMVC.Controllers
 {
     public class UserController : Controller
     {
-        public IActionResult Main()
+        private readonly IUserService userService;
+
+        public UserController(IUserService userService) 
         {
-            return View();
+            this.userService = userService;
+        }
+        [HttpGet]
+        public IActionResult Profile(string id)
+        {
+            var user = userService.GetProfile(id);
+            return View(user);
         }
       
     }

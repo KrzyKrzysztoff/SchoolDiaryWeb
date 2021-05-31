@@ -1,29 +1,88 @@
 ﻿@model LessonViewModel
-    <html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>Stwórz lekcje</title>
-    </head>
-    <body>
-        <form method="post">
-            <label>Start zajęć</label>
-            <input type="datetime-local" asp-for="Start" />
-            <label>Koniec zajęć</label>
-            <input type="datetime-local" asp-for="End" />
-            <label>Typ zajęć</label>
-            <select asp-for="LessonType" asp-items="@Html.GetEnumSelectList<LessonTypeEnum>()"></select>
-            <label>Id klasy</label>
-            <input asp-for="ClassGroupId" />
-            <label>Id przedmiotu</label>
-            <input asp-for="SubjectNameId" />
-            <button type="submit">Stwórz</button>
-        </form>
-        @if (ViewData["Success"] != null)
-        {
-            <h3 class="alert alert-danger">@ViewData["Success"]</h3>
-        }
-        @if (ViewData["Error"] != null)
-        {
-            <h3 class="alert alert-danger">@ViewData["Error"]</h3>
-        }
-    </body>
-    </html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Stwórz lekcje</title>
+    <link href="~/css/form-style.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="row d-flex justify-content-center">
+
+        <!--Grid column-->
+        <div class="col-md-9 mb-md-0 mb-5 user-input">
+            <h2 class="text-center bg-light">Dodaj lekcję</h2>
+            <form name="contact-form" method="post" asp-action="CreateLesson">
+                <!--Grid row-->
+                <div class="row">
+                    <!--Grid column-->
+                    <div class="col-md-6">
+                        <div class="md-form mb-0">
+                            <div class="input-group form-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                                </div>
+                                <input type="datetime-local" asp-for="Start" class="form-control">
+                            </div>
+                            <span asp-validation-for="Start" class="text-danger"></span>
+
+                        </div>
+                    </div>
+                    <!--Grid column-->
+                    <!--Grid column-->
+                    <div class="col-md-6">
+                        <div class="md-form mb-0">
+                            <div class="input-group form-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                </div>
+                                <input type="datetime-local" asp-for="End" class="form-control">
+                            </div>
+                            <span asp-validation-for="End" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>   <div class="row">
+                    <div class="col-md-6">
+                        <div class="md-form mb-0">
+                            <div class="input-group form-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                </div>
+                                <input type="text" asp-for="ClassGroupId" placeholder="Id klasy" class="form-control">
+                            </div>
+                            <span asp-validation-for="ClassGroupId" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="md-form mb-0">
+                            <div class="input-group form-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                </div>
+                                <input type="text" asp-for="SubjectNameId" placeholder="Id przedmiotu" class="form-control">
+                            </div>
+                            <span asp-validation-for="SubjectNameId" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                    <select class="custom-select" asp-items="@Html.GetEnumSelectList<LessonTypeEnum>()" asp-for="LessonType"></select>
+                    <div class="form-group create-user-button">
+                        <input type="submit" value="Stwórz" style="margin-top:3%;" class="btn float-right btn-primary">
+                       
+                    </div>
+            </form>
+
+        </div>
+    </div>
+
+
+
+    @if (ViewData["Success"] != null)
+    {
+        <h3 class="alert alert-danger">@ViewData["Success"]</h3>
+    }
+    @if (ViewData["Error"] != null)
+    {
+        <h3 class="alert alert-danger">@ViewData["Error"]</h3>
+    }
+</body>
+</html>
